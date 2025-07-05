@@ -29,7 +29,7 @@ const deliveryPartnerSchema=new mongoose.Schema({
     email:{type:String,required:true,unique:true},
     password:{type:String,required:true},
     phone:{type:Number,required:true},
-    role:{type:String,enum:["customer"],default:"customer"},
+    role:{type:String,enum:["DeliveryPartner"],default:"DeliveryPartner"},
     livelocation:{
         latitude:{type:Number},
         longitude:{type:Number},

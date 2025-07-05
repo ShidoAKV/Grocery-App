@@ -137,9 +137,29 @@ export const getOrders=async(req,reply)=>{
              query.deliveryPartner=deliveryPartnerId;
              query.branch=branchId;
         }
+        const orders=await Order.find(query).populate(
+            "customer branch item.item deliveryPartner"
+        );
+        return reply.send(orders);
+
+    } catch (error) {
+          return reply.status(500).send({ message: "Failed to update order status", error });
+    }
+}
+
+
+export const getOrderById=async(req,reply)=>{
+    try {
+         const { orderId } = req.params;
         
-       
-      
+        const order=await Order.findById(orderId).populate(
+            "customer branch item.item deliveryPartner"
+        );
+        if(!order){
+            return reply.status(404).send({message:"Order not found"});
+        }
+        
+        return reply.send(order);
 
     } catch (error) {
           return reply.status(500).send({ message: "Failed to update order status", error });

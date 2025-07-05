@@ -103,9 +103,9 @@ export const refreshToken=async(req,reply)=>{
         return reply.status(401).send({message:'Refresh token required'});
       }
       
-}
+};
 
-const fetchUser=async(req,reply)=>{
+export const fetchUser=async(req,reply)=>{
      try {
          const {userId,role}=req.user;
          let user;
@@ -130,7 +130,7 @@ const fetchUser=async(req,reply)=>{
      } catch (error) {
          return reply.status(401).send({message:'An error occured',error});
      }
-}
+};
 
 
 

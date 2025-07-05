@@ -1,4 +1,4 @@
-import { Category } from "../../models/category.js";
+import  Category  from "../../models/category.js";
 
 export const getAllCategories=async(req,reply)=>{
     try {
@@ -7,4 +7,4 @@ export const getAllCategories=async(req,reply)=>{
     } catch (error) {
          return reply.status(500).send({message:"An error occured",error});
     }
-}
+};

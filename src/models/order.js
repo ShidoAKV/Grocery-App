@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Counter from "./counter.js";
 
 
 const orderSchema=new mongoose.Schema({
@@ -58,4 +59,28 @@ const orderSchema=new mongoose.Schema({
      totalPrice:{type:String,required:true},
      createdAt:{type:Date,default:Date.now()},
      updatedAt:{type:Date,default:Date.now()}
+});
+
+async function getNextSequenceNumber(sequenceName){
+ const sequenceDocument=await Counter.findOneAndUpdate(
+    {name:sequenceName},
+    {$inc:{sequence_value:1}},
+    {new:true,upsert:true}
+ )
+ return sequenceDocument.sequence_value;
+}
+
+orderSchema.pre('save',async function (next){
+  if(this.isNew){
+    const sequencevalue=await getNextSequenceNumber("orderId");
+    this.orderId=`ORDR${sequencevalue.toString().padStart(5,'0')}`
+  }
+  next();
 })
+
+const Order=mongoose.model("Order",orderSchema);
+
+export default Order;
+
+
+
